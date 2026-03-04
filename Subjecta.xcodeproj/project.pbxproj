@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		28948A5F2F58C33E00D1B341 /* Subjecta-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Subjecta-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28948A5F2F58C33E00D1B341 /* Subjecta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Subjecta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		28948A612F58C33E00D1B341 /* Subjecta-App */ = {
+		28948A612F58C33E00D1B341 /* Subjecta */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Subjecta-App";
+			path = Subjecta;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		28948A562F58C33E00D1B341 = {
 			isa = PBXGroup;
 			children = (
-				28948A612F58C33E00D1B341 /* Subjecta-App */,
+				28948A612F58C33E00D1B341 /* Subjecta */,
 				28948A602F58C33E00D1B341 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		28948A602F58C33E00D1B341 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28948A5F2F58C33E00D1B341 /* Subjecta-App.app */,
+				28948A5F2F58C33E00D1B341 /* Subjecta.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		28948A5E2F58C33E00D1B341 /* Subjecta-App */ = {
+		28948A5E2F58C33E00D1B341 /* Subjecta */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28948A6A2F58C33F00D1B341 /* Build configuration list for PBXNativeTarget "Subjecta-App" */;
+			buildConfigurationList = 28948A6A2F58C33F00D1B341 /* Build configuration list for PBXNativeTarget "Subjecta" */;
 			buildPhases = (
 				28948A5B2F58C33E00D1B341 /* Sources */,
 				28948A5C2F58C33E00D1B341 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				28948A612F58C33E00D1B341 /* Subjecta-App */,
+				28948A612F58C33E00D1B341 /* Subjecta */,
 			);
-			name = "Subjecta-App";
+			name = Subjecta;
 			packageProductDependencies = (
 			);
 			productName = "Subjecta-App";
-			productReference = 28948A5F2F58C33E00D1B341 /* Subjecta-App.app */;
+			productReference = 28948A5F2F58C33E00D1B341 /* Subjecta.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 28948A5A2F58C33E00D1B341 /* Build configuration list for PBXProject "Subjecta-App" */;
+			buildConfigurationList = 28948A5A2F58C33E00D1B341 /* Build configuration list for PBXProject "Subjecta" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				28948A5E2F58C33E00D1B341 /* Subjecta-App */,
+				28948A5E2F58C33E00D1B341 /* Subjecta */,
 			);
 		};
 /* End PBXProject section */
@@ -253,11 +253,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -284,11 +286,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -309,7 +313,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28948A5A2F58C33E00D1B341 /* Build configuration list for PBXProject "Subjecta-App" */ = {
+		28948A5A2F58C33E00D1B341 /* Build configuration list for PBXProject "Subjecta" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28948A682F58C33F00D1B341 /* Debug */,
@@ -318,7 +322,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28948A6A2F58C33F00D1B341 /* Build configuration list for PBXNativeTarget "Subjecta-App" */ = {
+		28948A6A2F58C33F00D1B341 /* Build configuration list for PBXNativeTarget "Subjecta" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28948A6B2F58C33F00D1B341 /* Debug */,

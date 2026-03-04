@@ -8,10 +8,14 @@
 import SwiftUI
 
 @main
-struct Subjecta_AppApp: App {
+struct SubjectaApp: App {
+
+    @StateObject private var authManager = AuthManager()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environmentObject(authManager)
         }
     }
 }
