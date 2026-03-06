@@ -8,17 +8,37 @@
 import Foundation
 import Combine
 
+@MainActor
 class AuthManager: ObservableObject {
 
     @Published var isAuthenticated = false
     @Published var accessToken: String?
 
-    func login(token: String) {
-        accessToken = token
-        isAuthenticated = true
+    private let keychain = KeychainManager.shared
+
+    init() {
+
+        if let token = keychain.get(key: "accessToken") {
+            accessToken = token
+            isAuthenticated = true
+        }
+
+    }
+
+    func login(accessToken: String, refreshToken: String) {
+
+        keychain.save(key: "accessToken", value: accessToken)
+        keychain.save(key: "refreshToken", value: refreshToken)
+
+        self.accessToken = accessToken
+        self.isAuthenticated = true
     }
 
     func logout() {
+
+        keychain.save(key: "accessToken", value: "")
+        keychain.save(key: "refreshToken", value: "")
+
         accessToken = nil
         isAuthenticated = false
     }

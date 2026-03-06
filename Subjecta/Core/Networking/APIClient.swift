@@ -15,6 +15,19 @@ final class APIClient {
 
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
 
+        do {
+            return try await performRequest(endpoint)
+
+        } catch APIError.unauthorized {
+
+            try await refreshToken()
+
+            return try await performRequest(endpoint)
+        }
+    }
+    
+    private func performRequest<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+
         let url = NetworkConfiguration
             .baseURL
             .appendingPathComponent(endpoint.path)
@@ -28,25 +41,45 @@ final class APIClient {
             request.setValue($1, forHTTPHeaderField: $0)
         }
 
+        if let token = TokenManager.shared.getAccessToken() {
+
+            request.setValue(
+                "Bearer \(token)",
+                forHTTPHeaderField: "Authorization"
+            )
+        }
+
         let (data, response) = try await URLSession.shared.data(for: request)
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+        guard let http = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }
 
-        switch httpResponse.statusCode {
-
-        case 200...299:
-            return try JSONDecoder().decode(T.self, from: data)
-
-        case 401:
+        if http.statusCode == 401 {
             throw APIError.unauthorized
-
-        case 500...599:
-            throw APIError.serverError(httpResponse.statusCode)
-
-        default:
-            throw APIError.invalidResponse
         }
+
+        if http.statusCode >= 400 {
+
+            if let errorResponse = try? JSONDecoder().decode(ApiErrorResponse.self, from: data) {
+
+                print("SERVER ERROR:", errorResponse.message)
+
+            } else {
+
+                print("SERVER ERROR RAW:", String(data: data, encoding: .utf8) ?? "")
+            }
+
+            throw APIError.serverError(http.statusCode)
+        }
+
+        return try JSONDecoder().decode(T.self, from: data)
+    }
+    
+    private func refreshToken() async throws {
+
+        let authService = AuthService()
+        _ = try await authService.refreshToken()
+
     }
 }

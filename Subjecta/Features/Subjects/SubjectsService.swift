@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+class SubjectsService {
+
+    func getSubjects() async throws -> [Subject] {
+
+        try await APIClient.shared.request(
+            SubjectsEndpoint.getSubjects
+        )
+
+    }
+
+}

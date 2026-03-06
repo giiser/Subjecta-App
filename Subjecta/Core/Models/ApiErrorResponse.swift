@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct ApiErrorResponse: Codable {
+
+    let status: Int
+    let error: String
+    let message: String
+    let timestamp: String
+
+}
