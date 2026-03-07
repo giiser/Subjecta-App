@@ -1,10 +1,3 @@
-//
-//  LoginViewModel.swift
-//  Subjecta
-//
-//  Created by Sergii Ignatov on 05.03.2026.
-//
-
 import Foundation
 import Combine
 
@@ -17,33 +10,36 @@ class LoginViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let authService = AuthService()
+    private let service = AuthService()
 
-    func login(authManager: AuthManager) async {
+    func login() async -> Bool {
 
         isLoading = true
         errorMessage = nil
 
         do {
 
-            let response = try await authService.login(
+            let response = try await service.login(
                 username: username,
                 password: password
             )
 
-            authManager.login(
-                accessToken: response.accessToken,
-                refreshToken: response.refreshToken
+            AuthStore.shared.saveTokens(
+                access: response.accessToken,
+                refresh: response.refreshToken
             )
+
+            isLoading = false
+            return true
 
         } catch {
 
-            print(error)
-            errorMessage = error.localizedDescription
-//            errorMessage = "Login failed"
+            errorMessage = "Login failed"
+            isLoading = false
+            return false
 
         }
 
-        isLoading = false
     }
+
 }

@@ -10,17 +10,37 @@ import SwiftUI
 struct RootView: View {
 
     @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var router: Router
 
     var body: some View {
 
-        Group {
+        NavigationStack(path: $router.path) {
 
-            if authManager.isAuthenticated {
-                SubjectsView()
-            } else {
-                LoginView()
+            Group {
+
+                if authManager.isAuthenticated {
+                    SubjectsView()
+                } else {
+                    LoginView()
+                }
+
             }
+            .navigationDestination(for: Route.self) { route in
 
+                switch route {
+
+                case .topics(let subject):
+                    TopicsView(subject: subject)
+
+                case .lessons(let topic):
+                    LessonsView(topic: topic)
+
+                case .lesson(let lesson):
+                    LessonDetailView(lessonId: lesson.id)
+
+                }
+
+            }
         }
     }
 }

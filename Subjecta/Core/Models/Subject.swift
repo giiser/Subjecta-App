@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Subject: Codable, Identifiable {
+struct Subject: Codable, Identifiable, Hashable {
 
     let id: String
     let title: String
     let description: String?
     let themeColor: String?
+
 }

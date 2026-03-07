@@ -1,60 +1,58 @@
-//
-//  SubjectsView.swift
-//  Subjecta
-//
-//  Created by Sergii Ignatov on 04.03.2026.
-//
-
 import SwiftUI
 
 struct SubjectsView: View {
 
     @StateObject private var viewModel = SubjectsViewModel()
+    @EnvironmentObject var router: Router
 
     var body: some View {
 
-        NavigationStack {
+        Group {
 
-            Group {
+            if viewModel.isLoading {
 
-                if viewModel.isLoading {
+                ProgressView()
 
-                    ProgressView()
+            } else if let error = viewModel.errorMessage {
 
-                } else if let error = viewModel.errorMessage {
+                Text(error)
+                    .foregroundColor(.red)
 
-                    Text(error)
-                        .foregroundColor(.red)
+            } else {
 
-                } else {
+                List(viewModel.subjects) { subject in
 
-                    List(viewModel.subjects) { subject in
+                    Button {
 
-                        HStack {
+                        router.navigateToTopics(subject: subject)
 
-                            Circle()
-                                .fill(Color(hex: subject.themeColor ?? "#CCCCCC") ?? .gray)
-                                .frame(width: 12, height: 12)
+                    } label: {
 
-                            VStack(alignment: .leading) {
+                        VStack(alignment: .leading) {
 
-                                Text(subject.title)
-                                    .font(.headline)
+                            Text(subject.title)
+                                .font(.headline)
 
-                                if let description = subject.description {
-                                    Text(description)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
+                            if let description = subject.description {
+
+                                Text(description)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
-            .navigationTitle("Subjects")
-            .task {
-                await viewModel.loadSubjects()
-            }
+
+        }
+        .navigationTitle("Subjects")
+        .task {
+            await viewModel.loadSubjects()
         }
     }
 }

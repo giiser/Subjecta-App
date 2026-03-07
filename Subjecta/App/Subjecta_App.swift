@@ -11,11 +11,16 @@ import SwiftUI
 struct SubjectaApp: App {
 
     @StateObject private var authManager = AuthManager()
+    @StateObject private var router = Router()
 
     var body: some Scene {
+
         WindowGroup {
+
             RootView()
                 .environmentObject(authManager)
+                .environmentObject(router)
+
         }
     }
 }

@@ -2,8 +2,6 @@
 //  APIClient.swift
 //  Subjecta
 //
-//  Created by Sergii Ignatov on 04.03.2026.
-//
 
 import Foundation
 
@@ -16,6 +14,7 @@ final class APIClient {
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
 
         do {
+
             return try await performRequest(endpoint)
 
         } catch APIError.unauthorized {
@@ -23,15 +22,25 @@ final class APIClient {
             try await refreshToken()
 
             return try await performRequest(endpoint)
+
         }
     }
-    
+
     private func performRequest<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
 
-        let url = NetworkConfiguration
-            .baseURL
-            .appendingPathComponent(endpoint.path)
+        var components = URLComponents(
+            url: NetworkConfiguration.baseURL.appendingPathComponent(endpoint.path),
+            resolvingAgainstBaseURL: false
+        )!
 
+        components.queryItems = endpoint.queryItems
+
+        guard let url = components.url else {
+            throw APIError.invalidURL
+        }
+
+        print("REQUEST URL:", url)
+        
         var request = URLRequest(url: url)
 
         request.httpMethod = endpoint.method.rawValue
@@ -41,7 +50,8 @@ final class APIClient {
             request.setValue($1, forHTTPHeaderField: $0)
         }
 
-        if let token = TokenManager.shared.getAccessToken() {
+        // Attach access token automatically
+        if let token = AuthStore.shared.accessToken() {
 
             request.setValue(
                 "Bearer \(token)",
@@ -61,25 +71,35 @@ final class APIClient {
 
         if http.statusCode >= 400 {
 
-            if let errorResponse = try? JSONDecoder().decode(ApiErrorResponse.self, from: data) {
-
-                print("SERVER ERROR:", errorResponse.message)
-
-            } else {
-
-                print("SERVER ERROR RAW:", String(data: data, encoding: .utf8) ?? "")
-            }
+            print("STATUS CODE:", http.statusCode)
+            print("RAW RESPONSE:", String(data: data, encoding: .utf8) ?? "nil")
 
             throw APIError.serverError(http.statusCode)
         }
 
-        return try JSONDecoder().decode(T.self, from: data)
+//        return try JSONDecoder().decode(T.self, from: data)
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            print("DECODING ERROR:", error)
+            print("RAW JSON:", String(data: data, encoding: .utf8) ?? "")
+            throw error
+        }
     }
-    
+
     private func refreshToken() async throws {
 
-        let authService = AuthService()
-        _ = try await authService.refreshToken()
+        guard let refreshToken = AuthStore.shared.refreshToken() else {
+            throw APIError.unauthorized
+        }
 
+        let authService = AuthService()
+
+        let response = try await authService.refreshToken(refreshToken)
+
+        AuthStore.shared.saveTokens(
+            access: response.accessToken,
+            refresh: response.refreshToken
+        )
     }
 }
