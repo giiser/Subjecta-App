@@ -25,7 +25,7 @@ struct LessonsView: View {
                 List(viewModel.lessons) { item in
 
                     Button {
-
+                        print("LESSON TAPPED:", item.lesson.id)
                         router.navigateToLesson(item.lesson)
 
                     } label: {

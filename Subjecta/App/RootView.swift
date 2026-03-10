@@ -35,9 +35,11 @@ struct RootView: View {
                 case .lessons(let topic):
                     LessonsView(topic: topic)
 
-                case .lesson(let lesson):
-                    LessonDetailView(lessonId: lesson.id)
-
+                case .lesson(let lessonId):
+                    LessonDetailView(lessonId: lessonId)
+                    
+                case .quiz(let lessonId):
+                    QuizView(lessonId: lessonId)
                 }
 
             }

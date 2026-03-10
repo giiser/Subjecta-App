@@ -19,9 +19,10 @@ class LessonsService {
 
     func getLessonDetail(lessonId: String) async throws -> LessonDetail {
 
-        try await APIClient.shared.request(
+        print("LOAD LESSON DETAIL:", lessonId)
+
+        return try await APIClient.shared.request(
             LessonsEndpoint.lessonDetail(lessonId)
         )
-
     }
 }

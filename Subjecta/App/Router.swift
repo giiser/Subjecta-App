@@ -24,7 +24,13 @@ class Router: ObservableObject {
     
     func navigateToLesson(_ lesson: Lesson) {
 
-        path.append(Route.lesson(lesson))
+        path.append(Route.lesson(lesson.id))
+
+    }
+    
+    func navigateToQuiz(lessonId: String) {
+
+        path.append(Route.quiz(lessonId))
 
     }
 

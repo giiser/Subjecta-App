@@ -11,6 +11,6 @@ enum Route: Hashable {
 
     case topics(Subject)
     case lessons(Topic)
-    case lesson(Lesson)
-
+    case lesson(String)
+    case quiz(String)
 }
