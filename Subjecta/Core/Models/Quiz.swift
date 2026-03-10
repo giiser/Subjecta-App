@@ -22,19 +22,19 @@ struct QuizQuestion: Codable, Identifiable {
 
 }
 
-struct QuizOption: Codable, Identifiable {
-
-    let id: String
-    let text: String
-
-}
-
-struct QuizAnswer: Codable {
-
-    let questionId: String
-    let selectedOptionId: String
-
-}
+//struct QuizOption: Codable, Identifiable {
+//
+//    let id: String
+//    let text: String
+//
+//}
+//
+//struct QuizAnswer: Codable {
+//
+//    let questionId: String
+//    let selectedOptionId: String
+//
+//}
 
 struct QuizSubmission: Codable {
     let answers: [String: Int]
@@ -42,7 +42,17 @@ struct QuizSubmission: Codable {
 
 struct QuizResult: Codable {
 
-    let score: Int
+    let totalQuestions: Int
+    let correctAnswers: Int
+    let percentage: Double
     let passed: Bool
+
+}
+
+extension QuizResult {
+
+    var scoreText: String {
+        "\(correctAnswers) / \(totalQuestions)"
+    }
 
 }

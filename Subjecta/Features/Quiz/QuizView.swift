@@ -2,10 +2,7 @@
 //  QuizView.swift
 //  Subjecta
 //
-//  Created by Sergii Ignatov on 10.03.2026.
-//
 
-import Foundation
 import SwiftUI
 
 struct QuizView: View {
@@ -28,40 +25,53 @@ struct QuizView: View {
 
                 ProgressView()
 
+            } else if let result = viewModel.result {
+
+                resultView(result)
+
             } else if let quiz = viewModel.quiz {
 
-                VStack(alignment: .leading, spacing: 24) {
-
-                    ForEach(quiz.questions) { question in
-
-                        questionView(question)
-
-                    }
-
-                    submitButton
-
-                }
-                .padding()
+                quizContent(quiz)
 
             }
 
         }
         .navigationTitle("Quiz")
         .task {
-
             await viewModel.loadQuiz()
-
         }
     }
+
+    // MARK: Quiz Content
+
+    private func quizContent(_ quiz: Quiz) -> some View {
+
+        VStack(alignment: .leading, spacing: 24) {
+
+            if let error = viewModel.errorMessage {
+
+                Text(error)
+                    .foregroundColor(.red)
+
+            }
+
+            ForEach(quiz.questions) { question in
+
+                questionView(question)
+
+            }
+
+            submitButton
+
+        }
+        .padding()
+    }
+
+    // MARK: Question View
 
     private func questionView(_ question: QuizQuestion) -> some View {
 
         VStack(alignment: .leading, spacing: 12) {
-            
-            if let error = viewModel.errorMessage {
-                Text(error)
-                    .foregroundColor(.red)
-            }
 
             Text(question.text)
                 .font(.headline)
@@ -86,17 +96,22 @@ struct QuizView: View {
                         if viewModel.selectedAnswers[question.id] == index {
 
                             Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
 
                         }
 
                     }
 
                 }
+                .buttonStyle(.plain)
 
             }
 
         }
     }
+
+    // MARK: Submit Button
+
     private var submitButton: some View {
 
         Button {
@@ -116,4 +131,38 @@ struct QuizView: View {
         .buttonStyle(.borderedProminent)
 
     }
+
+    // MARK: Result Screen
+
+    private func resultView(_ result: QuizResult) -> some View {
+
+        VStack(spacing: 20) {
+
+            Text("Quiz Result")
+                .font(.title2)
+                .fontWeight(.bold)
+
+            Text("Score: \(result.scoreText)")
+                .font(.title3)
+
+            Text("\(Int(result.percentage))%")
+                .font(.headline)
+
+            if result.passed {
+
+                Text("Lesson completed 🎉")
+                    .foregroundColor(.green)
+
+            } else {
+
+                Text("Try again")
+                    .foregroundColor(.orange)
+
+            }
+
+        }
+        .padding()
+
+    }
+
 }
